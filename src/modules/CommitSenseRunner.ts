@@ -1,7 +1,9 @@
 import { Autocloner, GitAutocloner } from '@neurodevs/meta-node'
+import * as vscode from 'vscode'
 
 export default class CommitSenseRunner implements CommitSense {
     public static Class?: CommitSenseConstructor
+    public static vscode = vscode
 
     private autocloner: Autocloner
     private gitUrls: string[]
@@ -37,7 +39,16 @@ export default class CommitSenseRunner implements CommitSense {
 
     public async start() {
         this.throwIfNotInitialized()
+        this.registerLiveEditWatcher()
     }
+
+    private registerLiveEditWatcher() {
+        vscode.workspace.onDidChangeTextDocument(async (_event) => {
+            await this.onLiveEdit()
+        })
+    }
+
+    private async onLiveEdit() {}
 
     private throwIfNotInitialized() {
         if (!this.initialized) {

@@ -26,6 +26,10 @@
     "watch.rebuild": "yarn run clean.all && yarn install && yarn run watch.build.dev",
     "watch.tsc": "tsc -w"
   },
+  "dependencies": {
+    "@neurodevs/meta-node": "^0.0.1",
+    "vscode": "^1.1.37"
+  },
   "devDependencies": {
     "@sprucelabs/jest-json-reporter": "^9.0.61",
     "@sprucelabs/resolve-path-aliases": "^3.0.28",
@@ -57,13 +61,11 @@
       "**/__tests__/**/*.test.js?(x)"
     ],
     "moduleNameMapper": {
-      "^#spruce/(.*)$": "<rootDir>/build/.spruce/$1"
+      "^#spruce/(.*)$": "<rootDir>/build/.spruce/$1",
+      "^vscode$": "<rootDir>/build/testDoubles/vscode/fakeVscode.js"
     }
   },
   "skill": {
     "namespace": "commit-sense"
-  },
-  "dependencies": {
-    "@neurodevs/meta-node": "^0.0.1"
   }
 }
