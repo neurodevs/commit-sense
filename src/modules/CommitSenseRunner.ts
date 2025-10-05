@@ -6,6 +6,7 @@ export default class CommitSenseRunner implements CommitSense {
     private autocloner: Autocloner
     private gitUrls: string[]
     private installDir: string
+    private initialized: boolean
 
     protected constructor(options: CommitSenseConstructorOptions) {
         const { autocloner, gitUrls, installDir } = options
@@ -13,6 +14,8 @@ export default class CommitSenseRunner implements CommitSense {
         this.autocloner = autocloner
         this.gitUrls = gitUrls
         this.installDir = installDir
+
+        this.initialized = false
     }
 
     public static Create(options: CommitSenseOptions) {
@@ -22,6 +25,7 @@ export default class CommitSenseRunner implements CommitSense {
 
     public async initialize() {
         await this.cloneGitRepos()
+        this.initialized = true
     }
 
     private async cloneGitRepos() {
@@ -31,6 +35,20 @@ export default class CommitSenseRunner implements CommitSense {
         })
     }
 
+    public async start() {
+        this.throwIfNotInitialized()
+    }
+
+    private throwIfNotInitialized() {
+        if (!this.initialized) {
+            this.throwNotInitializedError()
+        }
+    }
+
+    private throwNotInitializedError() {
+        throw new Error('Please call initialize() before start()!')
+    }
+
     private static GitAutocloner() {
         return GitAutocloner.Create()
     }
@@ -38,6 +56,7 @@ export default class CommitSenseRunner implements CommitSense {
 
 export interface CommitSense {
     initialize(): Promise<void>
+    start(): Promise<void>
 }
 
 export type CommitSenseConstructor = new (

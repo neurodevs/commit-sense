@@ -53,6 +53,19 @@ export default class CommitSenseRunnerTest extends AbstractSpruceTest {
         )
     }
 
+    @test()
+    protected static async startThrowsIfInitializeNotCalled() {
+        const err = await assert.doesThrowAsync(
+            async () => await this.instance.start()
+        )
+
+        assert.isEqual(
+            err.message,
+            'Please call initialize() before start()!',
+            'Did not receive the expected error!'
+        )
+    }
+
     private static setFakeAutocloner() {
         GitAutocloner.Class = FakeAutocloner
         FakeAutocloner.resetTestDouble()
