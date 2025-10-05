@@ -1,4 +1,8 @@
-import AbstractSpruceTest, { test, assert } from '@sprucelabs/test-utils'
+import AbstractSpruceTest, {
+    test,
+    assert,
+    generateId,
+} from '@sprucelabs/test-utils'
 import { FakeAutocloner, GitAutocloner } from '@neurodevs/meta-node'
 import CommitSenseRunner, { CommitSense } from '../../modules/CommitSenseRunner'
 
@@ -28,18 +32,24 @@ export default class CommitSenseRunnerTest extends AbstractSpruceTest {
     }
 
     @test()
-    protected static async initializeClonesExpectedUrls() {
+    protected static async initializeClonesExpectedGitUrls() {
         await this.instance.initialize()
 
         assert.isEqualDeep(
             FakeAutocloner.callsToRun[0]?.urls,
-            [
-                '@neurodevs/node-biosensors',
-                '@neurodevs/node-ble',
-                '@neurodevs/node-lsl',
-                '@neurodevs/node-xdf',
-            ],
+            this.gitUrls,
             'Did not call run with expected urls!'
+        )
+    }
+
+    @test()
+    protected static async initializeClonesIntoExpectedDirPath() {
+        await this.instance.initialize()
+
+        assert.isEqualDeep(
+            FakeAutocloner.callsToRun[0]?.dirPath,
+            this.installDir,
+            'Did not call run with expected dirPath!'
         )
     }
 
@@ -48,16 +58,13 @@ export default class CommitSenseRunnerTest extends AbstractSpruceTest {
         FakeAutocloner.resetTestDouble()
     }
 
-    private static readonly gitUrls = [
-        '@neurodevs/node-biosensors',
-        '@neurodevs/node-ble',
-        '@neurodevs/node-lsl',
-        '@neurodevs/node-xdf',
-    ]
+    private static readonly gitUrls = [generateId(), generateId()]
+    private static readonly installDir = generateId()
 
     private static CommitSenseRunner() {
         return CommitSenseRunner.Create({
             gitUrls: this.gitUrls,
+            installDir: this.installDir,
         })
     }
 }

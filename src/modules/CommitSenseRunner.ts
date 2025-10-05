@@ -5,12 +5,14 @@ export default class CommitSenseRunner implements CommitSense {
 
     private autocloner: Autocloner
     private gitUrls: string[]
+    private installDir: string
 
     protected constructor(options: CommitSenseConstructorOptions) {
-        const { autocloner, gitUrls } = options
+        const { autocloner, gitUrls, installDir } = options
 
         this.autocloner = autocloner
         this.gitUrls = gitUrls
+        this.installDir = installDir
     }
 
     public static Create(options: CommitSenseOptions) {
@@ -25,7 +27,7 @@ export default class CommitSenseRunner implements CommitSense {
     private async cloneGitRepos() {
         await this.autocloner.run({
             urls: this.gitUrls,
-            dirPath: '',
+            dirPath: this.installDir,
         })
     }
 
@@ -44,6 +46,7 @@ export type CommitSenseConstructor = new (
 
 export interface CommitSenseOptions {
     gitUrls: string[]
+    installDir: string
 }
 
 export interface CommitSenseConstructorOptions extends CommitSenseOptions {
