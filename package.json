@@ -1,7 +1,9 @@
 {
-  "name": "commit-sense",
+  "name": "@neurodevs/commit-sense",
   "version": "0.0.1",
+  "description": "Sense what happens downstream before you commit.",
   "repository": "https://github.com/neurodevs/commit-sense.git",
+  "main": "build/index.js",
   "scripts": {
     "build.ci": "yarn run build.tsc && yarn run build.resolve-paths && yarn run lint",
     "build.dev": "yarn run build.tsc --sourceMap ; yarn run resolve-paths.lint",
@@ -40,15 +42,11 @@
     "tsc-watch": "^7.2.0",
     "typescript": "^5.9.3"
   },
-  "description": "Sense what happens downstream before you commit.",
-  "skill": {
-    "namespace": "commit-sense"
-  },
   "jest": {
     "testRunner": "jest-circus/runner",
-    "maxWorkers": 4,
-    "testTimeout": 120000,
     "testEnvironment": "node",
+    "testTimeout": 120000,
+    "maxWorkers": 4,
     "testPathIgnorePatterns": [
       "<rootDir>/tmp/",
       "<rootDir>/src/",
@@ -61,5 +59,8 @@
     "moduleNameMapper": {
       "^#spruce/(.*)$": "<rootDir>/build/.spruce/$1"
     }
+  },
+  "skill": {
+    "namespace": "commit-sense"
   }
 }
