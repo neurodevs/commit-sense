@@ -27,12 +27,37 @@ export default class CommitSenseRunnerTest extends AbstractSpruceTest {
         )
     }
 
+    @test()
+    protected static async initializeClonesExpectedUrls() {
+        await this.instance.initialize()
+
+        assert.isEqualDeep(
+            FakeAutocloner.callsToRun[0]?.urls,
+            [
+                '@neurodevs/node-biosensors',
+                '@neurodevs/node-ble',
+                '@neurodevs/node-lsl',
+                '@neurodevs/node-xdf',
+            ],
+            'Did not call run with expected urls!'
+        )
+    }
+
     private static setFakeAutocloner() {
         GitAutocloner.Class = FakeAutocloner
         FakeAutocloner.resetTestDouble()
     }
 
+    private static readonly gitUrls = [
+        '@neurodevs/node-biosensors',
+        '@neurodevs/node-ble',
+        '@neurodevs/node-lsl',
+        '@neurodevs/node-xdf',
+    ]
+
     private static CommitSenseRunner() {
-        return CommitSenseRunner.Create()
+        return CommitSenseRunner.Create({
+            gitUrls: this.gitUrls,
+        })
     }
 }
