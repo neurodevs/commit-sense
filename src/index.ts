@@ -8,6 +8,8 @@ export * from './testDoubles/CommitSense/FakeCommitSense'
 
 // vscode
 
+export * from './extensions'
+
 export { default as fakeVscode } from './testDoubles/vscode/fakeVscode'
 export * from './testDoubles/vscode/fakeVscode'
 
