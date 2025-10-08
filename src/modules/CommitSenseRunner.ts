@@ -32,8 +32,8 @@ export default class CommitSenseRunner implements CommitSense {
 
     private async cloneGitRepos() {
         await this.autocloner.run({
-            urls: this.gitUrls,
             dirPath: this.installDir,
+            urls: this.gitUrls,
         })
     }
 
