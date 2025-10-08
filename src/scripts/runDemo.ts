@@ -8,6 +8,7 @@ async function main() {
             'https://github.com/neurodevs/node-ble.git',
             'https://github.com/neurodevs/node-xdf.git',
             'https://github.com/neurodevs/node-biosensors.git',
+            'https://github.com/neurodevs/i-insula.git',
         ],
     })
 
