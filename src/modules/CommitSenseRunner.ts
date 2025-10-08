@@ -1,9 +1,10 @@
+require('module-alias/register')
+
 import { Autocloner, GitAutocloner } from '@neurodevs/meta-node'
 import * as vscode from 'vscode'
 
 export default class CommitSenseRunner implements CommitSense {
     public static Class?: CommitSenseConstructor
-    public static vscode = vscode
 
     private autocloner: Autocloner
     private gitUrls: string[]
@@ -44,11 +45,13 @@ export default class CommitSenseRunner implements CommitSense {
 
     private registerLiveEditWatcher() {
         vscode.workspace.onDidChangeTextDocument(async (_event) => {
-            await this.onLiveEdit()
+            await this.onLiveEdit(_event)
         })
     }
 
-    private async onLiveEdit() {}
+    private async onLiveEdit(event: any) {
+        console.log(event)
+    }
 
     private throwIfNotInitialized() {
         if (!this.initialized) {
@@ -57,7 +60,9 @@ export default class CommitSenseRunner implements CommitSense {
     }
 
     private throwNotInitializedError() {
-        throw new Error('Please call initialize() before start()!')
+        throw new Error(
+            '\n\nPlease call initialize() before start() on CommitSenseRunner!\n\n'
+        )
     }
 
     private static GitAutocloner() {
