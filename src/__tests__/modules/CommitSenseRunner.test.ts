@@ -65,7 +65,7 @@ export default class CommitSenseRunnerTest extends AbstractSpruceTest {
 
         assert.isEqual(
             err.message,
-            'Please call initialize() before start()!',
+            '\n\nPlease call initialize() before start() on CommitSenseRunner!\n\n',
             'Did not receive the expected error!'
         )
     }
