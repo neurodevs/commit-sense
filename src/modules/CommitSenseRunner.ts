@@ -60,10 +60,11 @@ export default class CommitSenseRunner implements CommitSense {
     }
 
     private throwNotInitializedError() {
-        throw new Error(
-            '\n\nPlease call initialize() before start() on CommitSenseRunner!\n\n'
-        )
+        throw new Error(this.notInitializedError)
     }
+
+    private readonly notInitializedError =
+        '\n\nPlease call initialize() before start() on CommitSenseRunner!\n\n'
 
     private static GitAutocloner() {
         return GitAutocloner.Create()
