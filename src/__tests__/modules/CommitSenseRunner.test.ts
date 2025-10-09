@@ -5,7 +5,10 @@ import AbstractSpruceTest, {
 } from '@sprucelabs/test-utils'
 import { FakeAutocloner, GitAutocloner } from '@neurodevs/meta-node'
 import { TextDocumentChangeEvent } from 'vscode'
-import CommitSenseRunner, { CommitSense } from '../../modules/CommitSenseRunner'
+import CommitSenseRunner, {
+    CommitSense,
+    CommitSenseOptions,
+} from '../../modules/CommitSenseRunner'
 import { resetVscodeTestDoubles } from '../../testDoubles/vscode/fakeVscode'
 import FakeWorkspace from '../../testDoubles/vscode/FakeWorkspace'
 
@@ -47,8 +50,21 @@ export default class CommitSenseRunnerTest extends AbstractSpruceTest {
     }
 
     @test()
-    protected static async initializeClonesIntoExpectedDirPath() {
+    protected static async initializeClonesIntoDefaultDirPath() {
         await this.initialize()
+
+        assert.isEqualDeep(
+            FakeAutocloner.callsToRun[0]?.dirPath,
+            this.defaultClonePath,
+            'Did not call run with expected dirPath!'
+        )
+    }
+
+    @test()
+    protected static async initializeClonesIntoPassedDirPath() {
+        const instance = this.CommitSenseRunner({ installDir: this.installDir })
+
+        await instance.initialize()
 
         assert.isEqualDeep(
             FakeAutocloner.callsToRun[0]?.dirPath,
@@ -98,6 +114,7 @@ export default class CommitSenseRunnerTest extends AbstractSpruceTest {
 
     private static readonly gitUrls = [generateId(), generateId()]
     private static readonly installDir = generateId()
+    private static readonly defaultClonePath = '~/.commitsense'
 
     private static setFakeAutocloner() {
         GitAutocloner.Class = FakeAutocloner
@@ -109,10 +126,10 @@ export default class CommitSenseRunnerTest extends AbstractSpruceTest {
         resetVscodeTestDoubles()
     }
 
-    private static CommitSenseRunner() {
+    private static CommitSenseRunner(options?: Partial<CommitSenseOptions>) {
         return CommitSenseRunner.Create({
             gitUrls: this.gitUrls,
-            installDir: this.installDir,
+            ...options,
         })
     }
 }

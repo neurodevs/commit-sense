@@ -12,11 +12,13 @@ export default class CommitSenseRunner implements CommitSense {
 
     private initialized: boolean
 
-    protected constructor(options: CommitSenseConstructorOptions) {
-        const { installDir, gitUrls, autocloner } = options
+    private readonly defaultClonePath = '~/.commitsense'
 
-        this.installDir = installDir
+    protected constructor(options: CommitSenseConstructorOptions) {
+        const { gitUrls, installDir, autocloner } = options
+
         this.gitUrls = gitUrls
+        this.installDir = installDir ?? this.defaultClonePath
         this.autocloner = autocloner
 
         this.initialized = false
@@ -82,8 +84,8 @@ export type CommitSenseConstructor = new (
 ) => CommitSense
 
 export interface CommitSenseOptions {
-    installDir: string
     gitUrls: string[]
+    installDir?: string
 }
 
 export interface CommitSenseConstructorOptions extends CommitSenseOptions {
