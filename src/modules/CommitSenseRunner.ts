@@ -6,24 +6,25 @@ import * as vscode from 'vscode'
 export default class CommitSenseRunner implements CommitSense {
     public static Class?: CommitSenseConstructor
 
-    private autocloner: Autocloner
-    private gitUrls: string[]
     private installDir: string
+    private gitUrls: string[]
+    private autocloner: Autocloner
+
     private initialized: boolean
 
     protected constructor(options: CommitSenseConstructorOptions) {
-        const { autocloner, gitUrls, installDir } = options
+        const { installDir, gitUrls, autocloner } = options
 
-        this.autocloner = autocloner
-        this.gitUrls = gitUrls
         this.installDir = installDir
+        this.gitUrls = gitUrls
+        this.autocloner = autocloner
 
         this.initialized = false
     }
 
     public static Create(options: CommitSenseOptions) {
         const autocloner = this.GitAutocloner()
-        return new (this.Class ?? this)({ autocloner, ...options })
+        return new (this.Class ?? this)({ ...options, autocloner })
     }
 
     public async initialize() {
@@ -81,8 +82,8 @@ export type CommitSenseConstructor = new (
 ) => CommitSense
 
 export interface CommitSenseOptions {
-    gitUrls: string[]
     installDir: string
+    gitUrls: string[]
 }
 
 export interface CommitSenseConstructorOptions extends CommitSenseOptions {
