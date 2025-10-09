@@ -6,8 +6,8 @@ import * as vscode from 'vscode'
 export default class CommitSenseRunner implements CommitSense {
     public static Class?: CommitSenseConstructor
 
-    private installDir: string
     private gitUrls: string[]
+    private installDir: string
     private autocloner: Autocloner
 
     private initialized: boolean
