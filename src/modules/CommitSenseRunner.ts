@@ -1,10 +1,12 @@
 require('module-alias/register')
 
+import { mkdir } from 'fs/promises'
 import { Autocloner, GitAutocloner } from '@neurodevs/meta-node'
 import * as vscode from 'vscode'
 
 export default class CommitSenseRunner implements CommitSense {
     public static Class?: CommitSenseConstructor
+    public static mkdir = mkdir
 
     private gitUrls: string[]
     private installDir: string
@@ -30,6 +32,7 @@ export default class CommitSenseRunner implements CommitSense {
     }
 
     public async initialize() {
+        await CommitSenseRunner.mkdir(this.installDir)
         await this.cloneGitRepos()
         this.initialized = true
     }

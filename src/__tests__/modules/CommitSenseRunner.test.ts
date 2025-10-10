@@ -1,3 +1,4 @@
+import { PathLike } from 'fs'
 import AbstractSpruceTest, {
     test,
     assert,
@@ -35,6 +36,23 @@ export default class CommitSenseRunnerTest extends AbstractSpruceTest {
             FakeAutocloner.numCallsToConstructor,
             1,
             'Did not create GitAutocloner!'
+        )
+    }
+
+    @test()
+    protected static async intializeMakesInstallDir() {
+        let passedPath: PathLike | undefined
+
+        CommitSenseRunner.mkdir = async (dirPath: PathLike) => {
+            passedPath = dirPath
+        }
+
+        await this.initialize()
+
+        assert.isEqual(
+            passedPath,
+            this.defaultClonePath,
+            'Did not call mkdir as expected!'
         )
     }
 
