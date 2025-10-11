@@ -1,15 +1,13 @@
+export default class LiveEditPropagator implements EditPropagator {
+    public static Class?: EditPropagatorConstructor
 
-            export default class LiveEditPropagator implements EditPropagator {
-                public static Class?: EditPropagatorConstructor
-                
-                protected constructor() {}
-                
-                public static Create() {
-                    return new (this.Class ?? this)()
-                }
-            }
+    protected constructor() {}
 
-            export interface EditPropagator {}
+    public static Create() {
+        return new (this.Class ?? this)()
+    }
+}
 
-            export type EditPropagatorConstructor = new () => EditPropagator
-        
+export interface EditPropagator {}
+
+export type EditPropagatorConstructor = new () => EditPropagator
