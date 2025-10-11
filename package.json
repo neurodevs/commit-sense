@@ -2,17 +2,32 @@
   "name": "@neurodevs/commit-sense",
   "version": "0.0.1",
   "description": "Sense what happens downstream before you commit.",
-  "repository": "https://github.com/neurodevs/commit-sense.git",
-  "main": "build/index.js",
-  "activationEvents": ["*"],
-  "contributes": {
-    "commands": [
-      {
-        "command": "commitSense.start",
-        "title": "Start CommitSense"
-      }
-    ]
+  "keywords": [
+    "nodejs",
+    "typescript",
+    "tdd",
+    "pre-ci",
+    "continuous",
+    "integration",
+    "git",
+    "crossrepo",
+    "commits",
+    "build",
+    "test",
+    "inspect",
+    "refactor"
+  ],
+  "license": "MIT",
+  "author": "Eric Yates <hello@ericthecurious.com>",
+  "homepage": "https://github.com/neurodevs/commit-sense",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/neurodevs/commit-sense.git"
   },
+  "bugs": {
+    "url": "https://github.com/neurodevs/commit-sense/issues"
+  },
+  "main": "build/index.js",
   "scripts": {
     "build.ci": "yarn run build.tsc && yarn run build.resolve-paths && yarn run lint",
     "build.dev": "yarn run build.tsc --sourceMap ; yarn run resolve-paths.lint",
@@ -56,9 +71,6 @@
     "typescript": "^5.9.3",
     "vscode": "^1.1.37"
   },
-  "_moduleAliases": {
-    "vscode": "build/testDoubles/vscode/fakeVscode.js"
-  },
   "jest": {
     "testRunner": "jest-circus/runner",
     "testEnvironment": "node",
@@ -80,5 +92,19 @@
   },
   "skill": {
     "namespace": "commit-sense"
+  },
+  "_moduleAliases": {
+    "vscode": "build/testDoubles/vscode/fakeVscode.js"
+  },
+  "activationEvents": [
+    "*"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "commitSense.start",
+        "title": "Start CommitSense"
+      }
+    ]
   }
 }
