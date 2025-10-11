@@ -6,6 +6,11 @@ export * from './modules/CommitSenseRunner'
 export { default as FakeCommitSense } from './testDoubles/CommitSense/FakeCommitSense'
 export * from './testDoubles/CommitSense/FakeCommitSense'
 
+// EditPropagator
+
+export { default as LiveEditPropagator } from './modules/LiveEditPropagator'
+export * from './modules/LiveEditPropagator'
+
 // vscode
 
 export * from './extensions'
