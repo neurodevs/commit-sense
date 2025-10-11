@@ -1,4 +1,6 @@
 import { PathLike } from 'fs'
+import os from 'os'
+import path from 'path'
 import AbstractSpruceTest, {
     test,
     assert,
@@ -132,7 +134,15 @@ export default class CommitSenseRunnerTest extends AbstractSpruceTest {
 
     private static readonly gitUrls = [generateId(), generateId()]
     private static readonly installDir = generateId()
-    private static readonly defaultClonePath = '~/.commitsense'
+
+    private static readonly defaultClonePath =
+        this.expandHomeDir('~/.commitsense')
+
+    private static expandHomeDir(inputPath: string) {
+        return inputPath.startsWith('~')
+            ? path.join(os.homedir(), inputPath.slice(1))
+            : inputPath
+    }
 
     private static setFakeAutocloner() {
         GitAutocloner.Class = FakeAutocloner

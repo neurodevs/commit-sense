@@ -1,6 +1,8 @@
 require('module-alias/register')
 
 import { mkdir } from 'fs/promises'
+import os from 'os'
+import path from 'path'
 import { Autocloner, GitAutocloner } from '@neurodevs/meta-node'
 import * as vscode from 'vscode'
 
@@ -14,7 +16,7 @@ export default class CommitSenseRunner implements CommitSense {
 
     private initialized: boolean
 
-    private readonly defaultClonePath = '~/.commitsense'
+    private readonly defaultClonePath = this.expandHomeDir('~/.commitsense')
 
     protected constructor(options: CommitSenseConstructorOptions) {
         const { gitUrls, installDir, autocloner } = options
@@ -75,6 +77,12 @@ export default class CommitSenseRunner implements CommitSense {
 
     private readonly notInitializedError =
         '\n\nPlease call initialize() before start() on CommitSenseRunner!\n\n'
+
+    private expandHomeDir(inputPath: string) {
+        return inputPath.startsWith('~')
+            ? path.join(os.homedir(), inputPath.slice(1))
+            : inputPath
+    }
 
     private static GitAutocloner() {
         return GitAutocloner.Create()
