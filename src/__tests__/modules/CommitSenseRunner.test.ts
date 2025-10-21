@@ -1,11 +1,8 @@
 import { PathLike } from 'fs'
 import os from 'os'
 import path from 'path'
-import AbstractSpruceTest, {
-    test,
-    assert,
-    generateId,
-} from '@sprucelabs/test-utils'
+import AbstractSpruceTest, { test, assert } from '@sprucelabs/test-utils'
+import generateId from '@neurodevs/generate-id'
 import { FakeAutocloner, GitAutocloner } from '@neurodevs/meta-node'
 import { TextDocumentChangeEvent } from 'vscode'
 import CommitSenseRunner, {
