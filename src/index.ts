@@ -1,15 +1,15 @@
 // CommitSense
 
-export { default as CommitSenseRunner } from './modules/CommitSenseRunner'
-export * from './modules/CommitSenseRunner'
+export { default as CommitSenseRunner } from './impl/CommitSenseRunner'
+export * from './impl/CommitSenseRunner'
 
 export { default as FakeCommitSense } from './testDoubles/CommitSense/FakeCommitSense'
 export * from './testDoubles/CommitSense/FakeCommitSense'
 
 // EditPropagator
 
-export { default as LiveEditPropagator } from './modules/LiveEditPropagator'
-export * from './modules/LiveEditPropagator'
+export { default as LiveEditPropagator } from './impl/LiveEditPropagator'
+export * from './impl/LiveEditPropagator'
 
 // vscode
 

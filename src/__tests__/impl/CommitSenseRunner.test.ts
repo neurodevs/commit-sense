@@ -8,7 +8,7 @@ import { TextDocumentChangeEvent } from 'vscode'
 import CommitSenseRunner, {
     CommitSense,
     CommitSenseOptions,
-} from '../../modules/CommitSenseRunner'
+} from '../../impl/CommitSenseRunner'
 import { resetVscodeTestDoubles } from '../../testDoubles/vscode/fakeVscode'
 import FakeWorkspace from '../../testDoubles/vscode/FakeWorkspace'
 

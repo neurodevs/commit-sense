@@ -1,7 +1,7 @@
 import AbstractSpruceTest, { test, assert } from '@sprucelabs/test-utils'
 import LiveEditPropagator, {
     EditPropagator,
-} from '../../modules/LiveEditPropagator'
+} from '../../impl/LiveEditPropagator'
 
 export default class LiveEditPropagatorTest extends AbstractSpruceTest {
     private static instance: EditPropagator
