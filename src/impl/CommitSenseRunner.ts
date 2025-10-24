@@ -56,8 +56,8 @@ export default class CommitSenseRunner implements CommitSense {
     }
 
     private registerLiveEditWatcher() {
-        vscode.workspace.onDidChangeTextDocument(async (_event) => {
-            await this.onLiveEdit(_event)
+        vscode.workspace.onDidChangeTextDocument(async (event) => {
+            await this.onLiveEdit(event)
         })
     }
 
