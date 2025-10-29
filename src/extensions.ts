@@ -1,5 +1,5 @@
 import * as vscode from 'vscode'
-import CommitSenseRunner from './impl/CommitSenseRunner'
+import CommitSenseRunner from './impl/CommitSenseRunner.js'
 
 export async function activate(context: vscode.ExtensionContext) {
     const runner = CommitSenseRunner.Create({

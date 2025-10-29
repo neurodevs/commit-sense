@@ -1,22 +1,22 @@
 // CommitSense
 
-export { default as CommitSenseRunner } from './impl/CommitSenseRunner'
-export * from './impl/CommitSenseRunner'
+export { default as CommitSenseRunner } from './impl/CommitSenseRunner.js'
+export * from './impl/CommitSenseRunner.js'
 
-export { default as FakeCommitSense } from './testDoubles/CommitSense/FakeCommitSense'
-export * from './testDoubles/CommitSense/FakeCommitSense'
+export { default as FakeCommitSense } from './testDoubles/CommitSense/FakeCommitSense.js'
+export * from './testDoubles/CommitSense/FakeCommitSense.js'
 
 // EditPropagator
 
-export { default as LiveEditPropagator } from './impl/LiveEditPropagator'
-export * from './impl/LiveEditPropagator'
+export { default as LiveEditPropagator } from './impl/LiveEditPropagator.js'
+export * from './impl/LiveEditPropagator.js'
 
 // vscode
 
-export * from './extensions'
+export * from './extensions.js'
 
-export { default as fakeVscode } from './testDoubles/vscode/fakeVscode'
-export * from './testDoubles/vscode/fakeVscode'
+export { default as fakeVscode } from './testDoubles/vscode/fakeVscode.js'
+export * from './testDoubles/vscode/fakeVscode.js'
 
-export { default as FakeWorkspace } from './testDoubles/vscode/FakeWorkspace'
-export * from './testDoubles/vscode/FakeWorkspace'
+export { default as FakeWorkspace } from './testDoubles/vscode/FakeWorkspace.js'
+export * from './testDoubles/vscode/FakeWorkspace.js'

@@ -1,18 +1,19 @@
 import { PathLike } from 'fs'
 import os from 'os'
 import path from 'path'
-import AbstractSpruceTest, { test, assert } from '@sprucelabs/test-utils'
 import generateId from '@neurodevs/generate-id'
 import { FakeAutocloner, GitAutocloner } from '@neurodevs/meta-node'
+import AbstractModuleTest, { test, assert } from '@neurodevs/node-tdd'
 import { TextDocumentChangeEvent } from 'vscode'
+
 import CommitSenseRunner, {
     CommitSense,
     CommitSenseOptions,
-} from '../../impl/CommitSenseRunner'
-import { resetVscodeTestDoubles } from '../../testDoubles/vscode/fakeVscode'
-import FakeWorkspace from '../../testDoubles/vscode/FakeWorkspace'
+} from '../../impl/CommitSenseRunner.js'
+import { resetVscodeTestDoubles } from '../../testDoubles/vscode/fakeVscode.js'
+import FakeWorkspace from '../../testDoubles/vscode/FakeWorkspace.js'
 
-export default class CommitSenseRunnerTest extends AbstractSpruceTest {
+export default class CommitSenseRunnerTest extends AbstractModuleTest {
     private static instance: CommitSense
 
     protected static async beforeEach() {

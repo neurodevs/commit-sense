@@ -1,9 +1,10 @@
-import AbstractSpruceTest, { test, assert } from '@sprucelabs/test-utils'
+import AbstractModuleTest, { test, assert } from '@neurodevs/node-tdd'
+
 import LiveEditPropagator, {
     EditPropagator,
-} from '../../impl/LiveEditPropagator'
+} from '../../impl/LiveEditPropagator.js'
 
-export default class LiveEditPropagatorTest extends AbstractSpruceTest {
+export default class LiveEditPropagatorTest extends AbstractModuleTest {
     private static instance: EditPropagator
 
     protected static async beforeEach() {

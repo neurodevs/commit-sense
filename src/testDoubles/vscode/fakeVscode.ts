@@ -1,4 +1,4 @@
-import FakeWorkspace from './FakeWorkspace'
+import FakeWorkspace from './FakeWorkspace.js'
 
 export function resetVscodeTestDoubles() {
     FakeWorkspace.resetTestDouble()

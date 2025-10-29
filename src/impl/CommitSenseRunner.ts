@@ -1,5 +1,3 @@
-require('module-alias/register')
-
 import { mkdir } from 'fs/promises'
 import os from 'os'
 import path from 'path'

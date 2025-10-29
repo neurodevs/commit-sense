@@ -1,7 +1,7 @@
 import {
     CommitSense,
     CommitSenseConstructorOptions,
-} from '../../impl/CommitSenseRunner'
+} from '../../impl/CommitSenseRunner.js'
 
 export default class FakeCommitSense implements CommitSense {
     public static callsToConstructor: (
