@@ -55,6 +55,7 @@
     "@neurodevs/meta-node": "^0.14.15"
   },
   "devDependencies": {
+    "@neurodevs/fake-node-core": "^0.6.2",
     "@neurodevs/generate-id": "^1.0.9",
     "@neurodevs/node-tdd": "^0.2.2",
     "@types/node": "^24.6.2",

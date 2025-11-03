@@ -38,7 +38,7 @@ export default class CommitSenseRunner implements CommitSense {
     }
 
     private async mkdirForInstall() {
-        await CommitSenseRunner.mkdir(this.installDir)
+        await CommitSenseRunner.mkdir(this.installDir, { recursive: true })
     }
 
     private async cloneGitRepos() {

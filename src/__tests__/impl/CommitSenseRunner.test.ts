@@ -1,6 +1,11 @@
-import { PathLike } from 'fs'
+import { mkdir } from 'fs/promises'
 import os from 'os'
 import path from 'path'
+import {
+    callsToMkdir,
+    fakeMkdir,
+    resetCallsToMkdir,
+} from '@neurodevs/fake-node-core'
 import generateId from '@neurodevs/generate-id'
 import { FakeAutocloner, GitAutocloner } from '@neurodevs/meta-node'
 import AbstractModuleTest, { test, assert } from '@neurodevs/node-tdd'
@@ -21,6 +26,7 @@ export default class CommitSenseRunnerTest extends AbstractModuleTest {
 
         this.setFakeAutocloner()
         this.setFakeVscode()
+        this.setFakeMkdir()
 
         this.instance = this.CommitSenseRunner()
     }
@@ -41,17 +47,11 @@ export default class CommitSenseRunnerTest extends AbstractModuleTest {
 
     @test()
     protected static async intializeMakesInstallDir() {
-        let passedPath: PathLike | undefined
-
-        CommitSenseRunner.mkdir = async (dirPath: PathLike) => {
-            passedPath = dirPath
-        }
-
         await this.initialize()
 
-        assert.isEqual(
-            passedPath,
-            this.defaultClonePath,
+        assert.isEqualDeep(
+            callsToMkdir[0],
+            { path: this.defaultClonePath, options: { recursive: true } },
             'Did not call mkdir as expected!'
         )
     }
@@ -150,6 +150,11 @@ export default class CommitSenseRunnerTest extends AbstractModuleTest {
     private static setFakeVscode() {
         // package.json jest moduleNameMapper handles this
         resetVscodeTestDoubles()
+    }
+
+    private static setFakeMkdir() {
+        CommitSenseRunner.mkdir = fakeMkdir as typeof mkdir
+        resetCallsToMkdir()
     }
 
     private static CommitSenseRunner(options?: Partial<CommitSenseOptions>) {
