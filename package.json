@@ -28,7 +28,24 @@
   "bugs": {
     "url": "https://github.com/neurodevs/commit-sense/issues"
   },
-  "main": "build/index.js",
+  "main": "build/extensions.js",
+  "publisher": "neurodevs",
+  "displayName": "CommitSense",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "activationEvents": [
+    "onStartupFinished",
+    "workspaceContains:.git"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "commitSense.start",
+        "title": "Start CommitSense"
+      }
+    ]
+  },
   "scripts": {
     "build.ci": "yarn run build.tsc && yarn run build.resolve-paths && yarn run lint",
     "build.dev": "yarn run build.tsc --sourceMap ; yarn run resolve-paths.lint",
@@ -92,19 +109,5 @@
   },
   "skill": {
     "namespace": "commit-sense"
-  },
-  "_moduleAliases": {
-    "vscode": "build/testDoubles/vscode/fakeVscode.js"
-  },
-  "activationEvents": [
-    "*"
-  ],
-  "contributes": {
-    "commands": [
-      {
-        "command": "commitSense.start",
-        "title": "Start CommitSense"
-      }
-    ]
   }
 }

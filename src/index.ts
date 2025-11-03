@@ -13,8 +13,6 @@ export * from './impl/LiveEditPropagator.js'
 
 // vscode
 
-export * from './extensions.js'
-
 export { default as fakeVscode } from './testDoubles/vscode/fakeVscode.js'
 export * from './testDoubles/vscode/fakeVscode.js'
 

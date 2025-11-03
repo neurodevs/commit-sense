@@ -55,7 +55,7 @@
 			"internalConsoleOptions": "neverOpen"
 		},
 		{
-			"name": "Run CommitSense Extension",
+			"name": "Launch CommitSense Extension",
 			"type": "extensionHost",
 			"request": "launch",
 			"runtimeExecutable": "${execPath}",
