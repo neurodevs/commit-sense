@@ -3,6 +3,7 @@ import os from 'os'
 import path from 'path'
 import { Autocloner, GitAutocloner } from '@neurodevs/meta-node'
 import * as vscode from 'vscode'
+import LiveEditPropagator, { EditPropagator } from './LiveEditPropagator.js'
 
 export default class CommitSenseRunner implements CommitSense {
     public static Class?: CommitSenseConstructor
@@ -28,17 +29,19 @@ export default class CommitSenseRunner implements CommitSense {
 
     public static Create(options: CommitSenseOptions) {
         const autocloner = this.GitAutocloner()
-        return new (this.Class ?? this)({ ...options, autocloner })
+        const propagator = this.LiveEditPropagator()
+
+        return new (this.Class ?? this)({ ...options, autocloner, propagator })
     }
 
     public async initialize() {
-        await this.mkdirForInstall()
+        await this.mkdirForInstallDir()
         await this.cloneGitRepos()
         this.initialized = true
     }
 
-    private async mkdirForInstall() {
-        await CommitSenseRunner.mkdir(this.installDir, { recursive: true })
+    private async mkdirForInstallDir() {
+        await this.mkdir(this.installDir, { recursive: true })
     }
 
     private async cloneGitRepos() {
@@ -82,8 +85,16 @@ export default class CommitSenseRunner implements CommitSense {
             : inputPath
     }
 
+    private get mkdir() {
+        return CommitSenseRunner.mkdir
+    }
+
     private static GitAutocloner() {
         return GitAutocloner.Create()
+    }
+
+    private static LiveEditPropagator() {
+        return LiveEditPropagator.Create()
     }
 }
 
@@ -103,4 +114,5 @@ export interface CommitSenseOptions {
 
 export interface CommitSenseConstructorOptions extends CommitSenseOptions {
     autocloner: Autocloner
+    propagator: EditPropagator
 }

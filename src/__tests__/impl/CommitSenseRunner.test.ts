@@ -15,6 +15,8 @@ import CommitSenseRunner, {
     CommitSense,
     CommitSenseOptions,
 } from '../../impl/CommitSenseRunner.js'
+import LiveEditPropagator from '../../impl/LiveEditPropagator.js'
+import FakeEditPropagator from '../../testDoubles/EditPropagator/FakeEditPropagator.js'
 import { resetVscodeTestDoubles } from '../../testDoubles/vscode/fakeVscode.js'
 import FakeWorkspace from '../../testDoubles/vscode/FakeWorkspace.js'
 
@@ -25,6 +27,7 @@ export default class CommitSenseRunnerTest extends AbstractModuleTest {
         await super.beforeEach()
 
         this.setFakeAutocloner()
+        this.setFakeEditPropagator()
         this.setFakeVscode()
         this.setFakeMkdir()
 
@@ -122,6 +125,15 @@ export default class CommitSenseRunnerTest extends AbstractModuleTest {
         assert.isTrue(wasHit, 'Did not register live edit watcher!')
     }
 
+    @test()
+    protected static async createsLiveEditPropagator() {
+        assert.isEqual(
+            FakeEditPropagator.numCallsToConstructor,
+            1,
+            'Did not create LiveEditPropagator!'
+        )
+    }
+
     private static async initialize() {
         await this.instance.initialize()
     }
@@ -145,6 +157,11 @@ export default class CommitSenseRunnerTest extends AbstractModuleTest {
     private static setFakeAutocloner() {
         GitAutocloner.Class = FakeAutocloner
         FakeAutocloner.resetTestDouble()
+    }
+
+    private static setFakeEditPropagator() {
+        LiveEditPropagator.Class = FakeEditPropagator
+        FakeEditPropagator.resetTestDouble()
     }
 
     private static setFakeVscode() {
