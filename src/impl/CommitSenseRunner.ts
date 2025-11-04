@@ -12,17 +12,19 @@ export default class CommitSenseRunner implements CommitSense {
     private gitUrls: string[]
     private installDir: string
     private autocloner: Autocloner
+    private propagator: EditPropagator
 
     private initialized: boolean
 
     private readonly defaultClonePath = this.expandHomeDir('~/.commitsense')
 
     protected constructor(options: CommitSenseConstructorOptions) {
-        const { gitUrls, installDir, autocloner } = options
+        const { gitUrls, installDir, autocloner, propagator } = options
 
         this.gitUrls = gitUrls
         this.installDir = installDir ?? this.defaultClonePath
         this.autocloner = autocloner
+        this.propagator = propagator
 
         this.initialized = false
     }
@@ -63,7 +65,7 @@ export default class CommitSenseRunner implements CommitSense {
     }
 
     private async onLiveEdit(event: vscode.TextDocumentChangeEvent) {
-        console.log(JSON.stringify(event, null, 4))
+        await this.propagator.propagate(event)
     }
 
     private throwIfNotInitialized() {

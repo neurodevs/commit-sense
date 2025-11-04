@@ -61,7 +61,7 @@ export default class CommitSenseRunnerTest extends AbstractModuleTest {
 
     @test()
     protected static async initializeClonesExpectedGitUrls() {
-        await this.instance.initialize()
+        await this.initialize()
 
         assert.isEqualDeep(
             FakeAutocloner.callsToRun[0]?.urls,
@@ -116,11 +116,9 @@ export default class CommitSenseRunnerTest extends AbstractModuleTest {
             wasHit = true
         }
 
-        await this.initialize()
-        await this.start()
+        await this.initializeAndStart()
 
-        const listener = FakeWorkspace.callsToOnDidChangeTextDocument[0]
-        listener({} as TextDocumentChangeEvent)
+        this.emitFakeEvent()
 
         assert.isTrue(wasHit, 'Did not register live edit watcher!')
     }
@@ -134,12 +132,37 @@ export default class CommitSenseRunnerTest extends AbstractModuleTest {
         )
     }
 
+    @test()
+    protected static async passesEditEventToLiveEditPropagator() {
+        await this.initializeAndStart()
+
+        const fakeEvent = this.emitFakeEvent()
+
+        assert.isEqual(
+            FakeEditPropagator.callsToPropagateEdit[0],
+            fakeEvent,
+            'Did not pass edit event to LiveEditPropagator!'
+        )
+    }
+
+    private static async initializeAndStart() {
+        await this.initialize()
+        await this.start()
+    }
+
     private static async initialize() {
         await this.instance.initialize()
     }
 
     private static async start() {
         await this.instance.start()
+    }
+
+    private static emitFakeEvent() {
+        const fakeEvent = {} as TextDocumentChangeEvent
+        const listener = FakeWorkspace.callsToOnDidChangeTextDocument[0]
+        listener(fakeEvent)
+        return fakeEvent
     }
 
     private static readonly gitUrls = [generateId(), generateId()]
