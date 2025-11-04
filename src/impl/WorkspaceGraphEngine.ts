@@ -6,7 +6,7 @@ export default class WorkspaceGraphEngine implements GraphEngine {
     public static Class?: GraphEngineConstructor
     public static readDir = readdir
 
-    protected graph!: Record<string, unknown>
+    protected graph!: Record<string, Record<string, unknown>>
 
     private workspaceDir: string
 
@@ -23,11 +23,19 @@ export default class WorkspaceGraphEngine implements GraphEngine {
     public async initialize() {
         this.graph = {}
 
-        await this.walk(this.workspaceDir, async (dirent) => {
-            if (dirent.isDirectory()) {
-                this.graph[dirent.name] = {}
-            }
-        })
+        const packageNames = await this.readDir(this.workspaceDir)
+
+        for (const packageName of packageNames) {
+            this.graph[packageName] = {} as Record<string, unknown>
+
+            const fullPath = path.join(this.workspaceDir, packageName)
+
+            await this.walk(fullPath, async (dirent) => {
+                if (dirent.isFile()) {
+                    this.graph[packageName][dirent.name] = {}
+                }
+            })
+        }
     }
 
     private async walk(
@@ -37,11 +45,11 @@ export default class WorkspaceGraphEngine implements GraphEngine {
         const entries = await this.readDir(dir, { withFileTypes: true })
 
         for (const entry of entries) {
-            const entryPath = path.join(dir, entry.name)
             await visitor(entry)
 
             if (entry.isDirectory()) {
-                await this.walk(entryPath, visitor)
+                const fullPath = path.join(dir, entry.name)
+                await this.walk(fullPath, visitor)
             }
         }
     }

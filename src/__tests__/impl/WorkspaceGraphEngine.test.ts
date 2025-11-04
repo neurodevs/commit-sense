@@ -1,6 +1,6 @@
 import { readdir } from 'fs/promises'
 import {
-    createFakeDir,
+    createFakeFile,
     fakeReadDir,
     resetCallsToReadDir,
     setFakeReadDirResult,
@@ -36,8 +36,12 @@ export default class WorkspaceGraphEngineTest extends AbstractSpruceTest {
         assert.isEqualDeep(
             graph,
             {
-                [this.packageNameA]: {},
-                [this.packageNameB]: {},
+                [this.packageNameA]: {
+                    [this.fileA]: {},
+                },
+                [this.packageNameB]: {
+                    [this.fileB]: {},
+                },
             },
             'Graph data structure is not as expected!'
         )
@@ -50,7 +54,12 @@ export default class WorkspaceGraphEngineTest extends AbstractSpruceTest {
     private static readonly workspaceDir = this.generateId()
 
     private static readonly packageNameA = this.generateId()
+    private static readonly packagePathA = `${this.workspaceDir}/${this.packageNameA}`
+    private static readonly fileA = this.generateId()
+
     private static readonly packageNameB = this.generateId()
+    private static readonly packagePathB = `${this.workspaceDir}/${this.packageNameB}`
+    private static readonly fileB = this.generateId()
 
     private static setSpyWorkspaceGraphEngine() {
         WorkspaceGraphEngine.Class = SpyWorkspaceGraphEngine
@@ -61,12 +70,17 @@ export default class WorkspaceGraphEngineTest extends AbstractSpruceTest {
         resetCallsToReadDir()
 
         setFakeReadDirResult(this.workspaceDir, [
-            createFakeDir({ name: this.packageNameA }),
-            createFakeDir({ name: this.packageNameB }),
+            this.packageNameA,
+            this.packageNameB,
         ])
 
-        setFakeReadDirResult(`${this.workspaceDir}/${this.packageNameA}`, [])
-        setFakeReadDirResult(`${this.workspaceDir}/${this.packageNameB}`, [])
+        setFakeReadDirResult(this.packagePathA, [
+            createFakeFile({ name: this.fileA, parentPath: this.packagePathA }),
+        ])
+
+        setFakeReadDirResult(this.packagePathB, [
+            createFakeFile({ name: this.fileB, parentPath: this.packagePathB }),
+        ])
     }
 
     private static WorkspaceGraphEngine() {
