@@ -59,7 +59,7 @@
 			"type": "extensionHost",
 			"request": "launch",
 			"runtimeExecutable": "${execPath}",
-			"args": ["--extensionDevelopmentPath=${workspaceFolder}"],
+			"args": ["--extensionDevelopmentPath=${workspaceFolder}", "--folder-uri", "file://${env:HOME}/.commitsense/"],
 			"outFiles": ["${workspaceFolder}/build/**/*.js"]
 		}
 	]

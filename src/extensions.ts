@@ -3,7 +3,6 @@ import CommitSenseRunner from './impl/CommitSenseRunner.js'
 
 export async function activate(context: vscode.ExtensionContext) {
     const runner = CommitSenseRunner.Create({
-        installDir: '/Users/ericthecurious/commitsense',
         gitUrls: [
             'https://github.com/neurodevs/node-lsl.git',
             'https://github.com/neurodevs/node-ble.git',

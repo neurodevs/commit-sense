@@ -62,8 +62,8 @@ export default class CommitSenseRunner implements CommitSense {
         })
     }
 
-    private async onLiveEdit(event: any) {
-        console.log(event)
+    private async onLiveEdit(event: vscode.TextDocumentChangeEvent) {
+        console.log(JSON.stringify(event, null, 4))
     }
 
     private throwIfNotInitialized() {
