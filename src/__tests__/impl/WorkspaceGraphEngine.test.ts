@@ -1,3 +1,10 @@
+import { readdir } from 'fs/promises'
+import {
+    createFakeDir,
+    fakeReadDir,
+    resetCallsToReadDir,
+    setFakeReadDirResult,
+} from '@neurodevs/fake-node-core'
 import AbstractSpruceTest, { test, assert } from '@neurodevs/node-tdd'
 
 import WorkspaceGraphEngine from '../../impl/WorkspaceGraphEngine.js'
@@ -10,6 +17,7 @@ export default class WorkspaceGraphEngineTest extends AbstractSpruceTest {
         await super.beforeEach()
 
         this.setSpyWorkspaceGraphEngine()
+        this.setFakeReadDir()
 
         this.instance = this.WorkspaceGraphEngine()
     }
@@ -27,7 +35,10 @@ export default class WorkspaceGraphEngineTest extends AbstractSpruceTest {
 
         assert.isEqualDeep(
             graph,
-            {},
+            {
+                [this.packageNameA]: {},
+                [this.packageNameB]: {},
+            },
             'Graph data structure is not as expected!'
         )
     }
@@ -38,8 +49,24 @@ export default class WorkspaceGraphEngineTest extends AbstractSpruceTest {
 
     private static readonly workspaceDir = this.generateId()
 
+    private static readonly packageNameA = this.generateId()
+    private static readonly packageNameB = this.generateId()
+
     private static setSpyWorkspaceGraphEngine() {
         WorkspaceGraphEngine.Class = SpyWorkspaceGraphEngine
+    }
+
+    private static setFakeReadDir() {
+        WorkspaceGraphEngine.readDir = fakeReadDir as unknown as typeof readdir
+        resetCallsToReadDir()
+
+        setFakeReadDirResult(this.workspaceDir, [
+            createFakeDir({ name: this.packageNameA }),
+            createFakeDir({ name: this.packageNameB }),
+        ])
+
+        setFakeReadDirResult(`${this.workspaceDir}/${this.packageNameA}`, [])
+        setFakeReadDirResult(`${this.workspaceDir}/${this.packageNameB}`, [])
     }
 
     private static WorkspaceGraphEngine() {
