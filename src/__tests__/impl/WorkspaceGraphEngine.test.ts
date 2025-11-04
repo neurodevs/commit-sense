@@ -40,6 +40,7 @@ export default class WorkspaceGraphEngineTest extends AbstractSpruceTest {
                 [this.packageNameA]: {
                     [this.fileA]: {},
                     [`${this.subdirA}/${this.fileA}`]: {},
+                    [`${this.subdirA}/${this.subsubdirA}/${this.fileA}`]: {},
                 },
                 [this.packageNameB]: {
                     [this.fileB]: {},
@@ -59,6 +60,8 @@ export default class WorkspaceGraphEngineTest extends AbstractSpruceTest {
     private static readonly packagePathA = `${this.workspaceDir}/${this.packageNameA}`
     private static readonly subdirA = this.generateId()
     private static readonly subdirPathA = `${this.packagePathA}/${this.subdirA}`
+    private static readonly subsubdirA = this.generateId()
+    private static readonly subsubdirPathA = `${this.subdirPathA}/${this.subsubdirA}`
     private static readonly fileA = this.generateId()
 
     private static readonly packageNameB = this.generateId()
@@ -91,7 +94,18 @@ export default class WorkspaceGraphEngineTest extends AbstractSpruceTest {
         ])
 
         setFakeReadDirResult(this.subdirPathA, [
+            createFakeDir({
+                name: this.subsubdirA,
+                parentPath: this.subdirPathA,
+            }),
             createFakeFile({ name: this.fileA, parentPath: this.subdirPathA }),
+        ])
+
+        setFakeReadDirResult(this.subsubdirPathA, [
+            createFakeFile({
+                name: this.fileA,
+                parentPath: this.subsubdirPathA,
+            }),
         ])
     }
 
