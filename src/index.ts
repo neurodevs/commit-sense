@@ -16,6 +16,9 @@ export * from './impl/LiveEditPropagator.js'
 export { default as WorkspaceGraphEngine } from './impl/WorkspaceGraphEngine.js'
 export * from './impl/WorkspaceGraphEngine.js'
 
+export { default as SpyWorkspaceGraphEngine } from './testDoubles/GraphEngine/SpyWorkspaceGraphEngine.js'
+export * from './testDoubles/GraphEngine/SpyWorkspaceGraphEngine.js'
+
 export { default as FakeGraphEngine } from './testDoubles/GraphEngine/FakeGraphEngine.js'
 export * from './testDoubles/GraphEngine/FakeGraphEngine.js'
 

@@ -1,13 +1,27 @@
 export default class WorkspaceGraphEngine implements GraphEngine {
     public static Class?: GraphEngineConstructor
 
-    protected constructor() {}
+    protected graph!: Record<string, unknown>
 
-    public static Create() {
-        return new (this.Class ?? this)()
+    protected constructor(_options: GraphEngineOptions) {}
+
+    public static Create(options: GraphEngineOptions) {
+        return new (this.Class ?? this)(options)
+    }
+
+    public async initialize() {
+        this.graph = {}
     }
 }
 
-export interface GraphEngine {}
+export interface GraphEngine {
+    initialize(): Promise<void>
+}
 
-export type GraphEngineConstructor = new () => GraphEngine
+export type GraphEngineConstructor = new (
+    options: GraphEngineOptions
+) => GraphEngine
+
+export interface GraphEngineOptions {
+    workspaceDir: string
+}
