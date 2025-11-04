@@ -11,6 +11,14 @@ export * from './testDoubles/CommitSense/FakeCommitSense.js'
 export { default as LiveEditPropagator } from './impl/LiveEditPropagator.js'
 export * from './impl/LiveEditPropagator.js'
 
+// GraphEngine
+
+export { default as WorkspaceGraphEngine } from './impl/WorkspaceGraphEngine.js'
+export * from './impl/WorkspaceGraphEngine.js'
+
+export { default as FakeGraphEngine } from './testDoubles/GraphEngine/FakeGraphEngine.js'
+export * from './testDoubles/GraphEngine/FakeGraphEngine.js'
+
 // vscode
 
 export { default as fakeVscode } from './testDoubles/vscode/fakeVscode.js'
