@@ -3,6 +3,7 @@ import os from 'os'
 import path from 'path'
 import { Autocloner, GitAutocloner } from '@neurodevs/meta-node'
 import * as vscode from 'vscode'
+
 import LiveEditPropagator, { EditPropagator } from './LiveEditPropagator.js'
 
 export default class CommitSenseRunner implements CommitSense {
