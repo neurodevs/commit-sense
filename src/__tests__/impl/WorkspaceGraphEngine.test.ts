@@ -1,5 +1,6 @@
 import { readdir } from 'fs/promises'
 import {
+    createFakeDir,
     createFakeFile,
     fakeReadDir,
     resetCallsToReadDir,
@@ -38,6 +39,7 @@ export default class WorkspaceGraphEngineTest extends AbstractSpruceTest {
             {
                 [this.packageNameA]: {
                     [this.fileA]: {},
+                    [`${this.subdirA}/${this.fileA}`]: {},
                 },
                 [this.packageNameB]: {
                     [this.fileB]: {},
@@ -55,6 +57,8 @@ export default class WorkspaceGraphEngineTest extends AbstractSpruceTest {
 
     private static readonly packageNameA = this.generateId()
     private static readonly packagePathA = `${this.workspaceDir}/${this.packageNameA}`
+    private static readonly subdirA = this.generateId()
+    private static readonly subdirPathA = `${this.packagePathA}/${this.subdirA}`
     private static readonly fileA = this.generateId()
 
     private static readonly packageNameB = this.generateId()
@@ -75,11 +79,19 @@ export default class WorkspaceGraphEngineTest extends AbstractSpruceTest {
         ])
 
         setFakeReadDirResult(this.packagePathA, [
+            createFakeDir({
+                name: this.subdirA,
+                parentPath: this.packagePathA,
+            }),
             createFakeFile({ name: this.fileA, parentPath: this.packagePathA }),
         ])
 
         setFakeReadDirResult(this.packagePathB, [
             createFakeFile({ name: this.fileB, parentPath: this.packagePathB }),
+        ])
+
+        setFakeReadDirResult(this.subdirPathA, [
+            createFakeFile({ name: this.fileA, parentPath: this.subdirPathA }),
         ])
     }
 

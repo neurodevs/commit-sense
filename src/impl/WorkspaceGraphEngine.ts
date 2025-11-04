@@ -28,11 +28,13 @@ export default class WorkspaceGraphEngine implements GraphEngine {
         for (const packageName of packageNames) {
             this.graph[packageName] = {} as Record<string, unknown>
 
-            const fullPath = path.join(this.workspaceDir, packageName)
+            const packagePath = path.join(this.workspaceDir, packageName)
 
-            await this.walk(fullPath, async (dirent) => {
+            await this.walk(packagePath, async (dirent) => {
                 if (dirent.isFile()) {
-                    this.graph[packageName][dirent.name] = {}
+                    const fullPath = path.join(dirent.parentPath, dirent.name)
+                    const relPath = path.relative(packagePath, fullPath)
+                    this.graph[packageName][relPath] = {}
                 }
             })
         }
