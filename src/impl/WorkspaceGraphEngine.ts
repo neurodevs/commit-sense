@@ -25,19 +25,25 @@ export default class WorkspaceGraphEngine implements GraphEngine {
 
         const packageNames = await this.readDir(this.workspaceDir)
 
-        for (const packageName of packageNames) {
-            this.graph[packageName] = {} as Record<string, unknown>
-
-            const packagePath = path.join(this.workspaceDir, packageName)
-
-            await this.walk(packagePath, async (dirent) => {
-                if (dirent.isFile()) {
-                    const fullPath = path.join(dirent.parentPath, dirent.name)
-                    const relPath = path.relative(packagePath, fullPath)
-                    this.graph[packageName][relPath] = {}
-                }
+        await Promise.all(
+            packageNames.map(async (packageName) => {
+                await this.indexPackageFiles(packageName)
             })
-        }
+        )
+    }
+
+    private async indexPackageFiles(packageName: string) {
+        const packagePath = path.join(this.workspaceDir, packageName)
+
+        this.graph[packageName] = {} as Record<string, unknown>
+
+        await this.walk(packagePath, async (dirent) => {
+            if (dirent.isFile()) {
+                const fullPath = path.join(dirent.parentPath, dirent.name)
+                const relPath = path.relative(packagePath, fullPath)
+                this.graph[packageName][relPath] = {}
+            }
+        })
     }
 
     private async walk(
