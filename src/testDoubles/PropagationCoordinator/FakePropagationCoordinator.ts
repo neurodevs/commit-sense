@@ -8,6 +8,8 @@ export default class FakePropagationCoordinator
         repoPaths?: string[]
     }[] = []
 
+    public static numCallsToRun = 0
+
     public constructor(repoPath?: string, repoPaths?: string[]) {
         FakePropagationCoordinator.callsToConstructor.push({
             repoPath,
@@ -15,7 +17,12 @@ export default class FakePropagationCoordinator
         })
     }
 
+    public async run() {
+        FakePropagationCoordinator.numCallsToRun += 1
+    }
+
     public static resetTestDouble() {
         FakePropagationCoordinator.callsToConstructor = []
+        FakePropagationCoordinator.numCallsToRun = 0
     }
 }
