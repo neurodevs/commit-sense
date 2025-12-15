@@ -1,5 +1,8 @@
 import { readFile } from 'node:fs/promises'
-import { NpmReleasePropagator } from '@neurodevs/meta-node'
+import {
+    NpmReleasePropagator,
+    ReleasePropagatorOptions,
+} from '@neurodevs/meta-node'
 
 export default class NpmPropagationCoordinator
     implements PropagationCoordinator
@@ -21,11 +24,7 @@ export default class NpmPropagationCoordinator
         const targetRepoPaths: string[] = []
 
         for (const repoPath of this.repoPaths) {
-            const pkgJson = await this.readFile(
-                `${repoPath}/package.json`,
-                'utf-8'
-            )
-            const pkg = JSON.parse(pkgJson)
+            const pkg = await this.loadPkgJsonFor(repoPath)
 
             if (
                 pkg.dependencies?.[this.repoPath] ??
@@ -35,13 +34,18 @@ export default class NpmPropagationCoordinator
             }
         }
 
-        const propagator = NpmReleasePropagator.Create({
+        const propagator = this.NpmReleaseCoordinator({
             packageName: this.repoPath.split('/').pop() ?? '',
             packageVersion,
             repoPaths: targetRepoPaths,
         })
 
         await propagator.run()
+    }
+
+    private async loadPkgJsonFor(repoPath: string) {
+        const pkgJson = await this.readFile(`${repoPath}/package.json`, 'utf-8')
+        return JSON.parse(pkgJson)
     }
 
     public static Create(repoPath: string, repoPaths: string[]) {
@@ -59,6 +63,10 @@ export default class NpmPropagationCoordinator
 
     private get readFile() {
         return NpmPropagationCoordinator.readFile
+    }
+
+    private NpmReleaseCoordinator(options: ReleasePropagatorOptions) {
+        return NpmReleasePropagator.Create(options)
     }
 }
 
