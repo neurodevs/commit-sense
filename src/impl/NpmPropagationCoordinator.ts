@@ -13,52 +13,68 @@ export default class NpmPropagationCoordinator
     private repoPath: string
     private repoPaths: string[]
 
+    private currentRepoPath!: string
+    private currentPkg!: PackageJson
+
     protected constructor(repoPath: string, repoPaths: string[]) {
         this.repoPath = repoPath
         this.repoPaths = repoPaths
-    }
-
-    public async run() {
-        const packageVersion = await this.getPackageVersion()
-
-        const targetRepoPaths: string[] = []
-
-        for (const repoPath of this.repoPaths) {
-            const pkg = await this.loadPkgJsonFor(repoPath)
-
-            if (
-                pkg.dependencies?.[this.repoPath] ??
-                pkg.devDependencies?.[this.repoPath]
-            ) {
-                targetRepoPaths.push(repoPath)
-            }
-        }
-
-        const propagator = this.NpmReleaseCoordinator({
-            packageName: this.repoPath.split('/').pop() ?? '',
-            packageVersion,
-            repoPaths: targetRepoPaths,
-        })
-
-        await propagator.run()
-    }
-
-    private async loadPkgJsonFor(repoPath: string) {
-        const pkgJson = await this.readFile(`${repoPath}/package.json`, 'utf-8')
-        return JSON.parse(pkgJson)
     }
 
     public static Create(repoPath: string, repoPaths: string[]) {
         return new (this.Class ?? this)(repoPath, repoPaths)
     }
 
+    public async run() {
+        const packageName = this.repoPath.split('/').pop()!
+        const packageVersion = await this.getPackageVersion()
+        const repoPaths = await this.determineReposForPropagation()
+
+        const propagator = this.NpmReleaseCoordinator({
+            packageName,
+            packageVersion,
+            repoPaths,
+        })
+
+        await propagator.run()
+    }
+
     private async getPackageVersion() {
-        const pkgJson = await this.readFile(this.pkgJsonPath, 'utf-8')
+        const pkgJson = await this.readFile(
+            `${this.repoPath}/package.json`,
+            'utf-8'
+        )
         return JSON.parse(pkgJson)?.version as string
     }
 
-    private get pkgJsonPath() {
-        return `${this.repoPath}/package.json`
+    private async determineReposForPropagation() {
+        const repoPaths: string[] = []
+
+        for (const repoPath of this.repoPaths) {
+            this.currentRepoPath = repoPath
+            this.currentPkg = await this.loadPkgJson()
+
+            if (this.isDependency ?? this.isDevDependency) {
+                repoPaths.push(repoPath)
+            }
+        }
+        return repoPaths
+    }
+
+    private get isDependency() {
+        return this.currentPkg?.dependencies?.[this.repoPath]
+    }
+
+    private get isDevDependency() {
+        return this.currentPkg?.devDependencies?.[this.repoPath]
+    }
+
+    private async loadPkgJson() {
+        const pkgJson = await this.readFile(
+            `${this.currentRepoPath}/package.json`,
+            'utf-8'
+        )
+        return JSON.parse(pkgJson)
     }
 
     private get readFile() {
@@ -78,3 +94,9 @@ export type PropagationCoordinatorConstructor = new (
     repoPath: string,
     repoPaths: string[]
 ) => PropagationCoordinator
+
+export interface PackageJson {
+    version?: string
+    dependencies?: Record<string, string>
+    devDependencies?: Record<string, string>
+}
