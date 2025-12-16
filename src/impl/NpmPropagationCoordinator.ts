@@ -14,7 +14,7 @@ export default class NpmPropagationCoordinator
     private repoPaths: string[]
 
     private currentRepoPath!: string
-    private currentPkg!: PackageJson
+    private currentPkgJson!: PackageJson
 
     protected constructor(repoPath: string, repoPaths: string[]) {
         this.repoPath = repoPath
@@ -52,7 +52,7 @@ export default class NpmPropagationCoordinator
 
         for (const repoPath of this.repoPaths) {
             this.currentRepoPath = repoPath
-            this.currentPkg = await this.loadPkgJson()
+            this.currentPkgJson = await this.loadCurrentPkgJson()
 
             if (this.isDependency ?? this.isDevDependency) {
                 repoPaths.push(repoPath)
@@ -62,14 +62,14 @@ export default class NpmPropagationCoordinator
     }
 
     private get isDependency() {
-        return this.currentPkg?.dependencies?.[this.repoPath]
+        return this.currentPkgJson?.dependencies?.[this.repoPath]
     }
 
     private get isDevDependency() {
-        return this.currentPkg?.devDependencies?.[this.repoPath]
+        return this.currentPkgJson?.devDependencies?.[this.repoPath]
     }
 
-    private async loadPkgJson() {
+    private async loadCurrentPkgJson() {
         const pkgJson = await this.readFile(
             `${this.currentRepoPath}/package.json`,
             'utf-8'
