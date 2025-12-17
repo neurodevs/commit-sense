@@ -22,14 +22,6 @@ export * from './testDoubles/GraphEngine/SpyWorkspaceGraphEngine.js'
 export { default as FakeGraphEngine } from './testDoubles/GraphEngine/FakeGraphEngine.js'
 export * from './testDoubles/GraphEngine/FakeGraphEngine.js'
 
-// PropagationCoordinator
-
-export { default as NpmPropagationCoordinator } from './impl/NpmPropagationCoordinator.js'
-export * from './impl/NpmPropagationCoordinator.js'
-
-export { default as FakePropagationCoordinator } from './testDoubles/PropagationCoordinator/FakePropagationCoordinator.js'
-export * from './testDoubles/PropagationCoordinator/FakePropagationCoordinator.js'
-
 // vscode
 
 export { default as fakeVscode } from './testDoubles/vscode/fakeVscode.js'
