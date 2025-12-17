@@ -1,6 +1,6 @@
 {
   "name": "@neurodevs/commit-sense",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Sense what happens downstream before you commit.",
   "type": "module",
   "keywords": [
@@ -29,6 +29,10 @@
     "url": "https://github.com/neurodevs/commit-sense/issues"
   },
   "main": "build/extensions.js",
+  "exports": {
+    ".": "./build/index.js",
+    "./extension": "./build/extensions.js"
+  },
   "publisher": "neurodevs",
   "displayName": "CommitSense",
   "engines": {
