@@ -28,7 +28,7 @@ export default class NpmPropagationCoordinator
     public async run() {
         const packageName = this.repoPath.split('/').pop()!
         const packageVersion = await this.getPackageVersion()
-        const repoPaths = await this.determineReposForPropagation()
+        const repoPaths = await this.determineWhereToPropagate()
 
         const propagator = this.NpmReleaseCoordinator({
             packageName,
@@ -47,7 +47,7 @@ export default class NpmPropagationCoordinator
         return JSON.parse(pkgJson)?.version as string
     }
 
-    private async determineReposForPropagation() {
+    private async determineWhereToPropagate() {
         const repoPaths: string[] = []
 
         for (const repoPath of this.repoPaths) {
