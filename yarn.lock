@@ -720,13 +720,14 @@
   resolved "https://registry.yarnpkg.com/@neurodevs/generate-id/-/generate-id-1.0.9.tgz#e73eb0fced505a327dd986596ba017486056cba7"
   integrity sha512-x+kjwOx2ho9pRb7THG2EuV5CfSJZYHffLvikZyXyyWMT6kIkvvCfjwgAP4dFkwEBCx1OgHoPlgIfVFxE4T+ihg==
 
-"@neurodevs/meta-node@^0.14.26":
-  version "0.14.26"
-  resolved "https://registry.yarnpkg.com/@neurodevs/meta-node/-/meta-node-0.14.26.tgz#27d33cef2f99538aa872257913476ea9107c52e3"
-  integrity sha512-RDO7EvY5ut0uYGYKSEEVjyC1tQkZE56NKNHPuoirBjxBNJgfDIj/WQtjxePlpjq2Ul1rwOP8cZDgDIF096gmeg==
+"@neurodevs/meta-node@0.18.6":
+  version "0.18.6"
+  resolved "https://registry.yarnpkg.com/@neurodevs/meta-node/-/meta-node-0.18.6.tgz#265356ee1f77496535df165bd555f5512d481f55"
+  integrity sha512-Fb31uz5ViO+GcoeIwP/3JPksLwXFp4ClOvaL+VdBiVMEQE9omhJ+HrcPMcv5QODlsBKj6JJUMwa7R24RYpbAtQ==
   dependencies:
     fs-extra "^11.3.2"
     jsonc-parser "^3.3.1"
+    semver "^7.7.3"
 
 "@neurodevs/node-tdd@0.2.3":
   version "0.2.3"
@@ -4070,7 +4071,7 @@ safe-regex-test@^1.1.0:
     es-errors "^1.3.0"
     is-regex "^1.2.1"
 
-semver@7.x, semver@^7.5.3, semver@^7.5.4, semver@^7.6.0, semver@^7.7.2:
+semver@7.x, semver@^7.5.3, semver@^7.5.4, semver@^7.6.0, semver@^7.7.2, semver@^7.7.3:
   version "7.7.3"
   resolved "https://registry.yarnpkg.com/semver/-/semver-7.7.3.tgz#4b5f4143d007633a8dc671cd0a6ef9147b8bb946"
   integrity sha512-SdsKMrI9TdgjdweUSR9MweHA4EJ8YxHn8DFaDisvhVlUOe4BF1tLD7GAj0lIqWVl+dPb/rExr0Btby5loQm20Q==
