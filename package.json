@@ -69,7 +69,7 @@
     "watch.tsc": "tsc -w"
   },
   "dependencies": {
-    "@neurodevs/meta-node": "0.19.8",
+    "@neurodevs/meta-node": "0.19.11",
     "vscode": "^1.1.37"
   },
   "devDependencies": {
